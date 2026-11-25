@@ -113,6 +113,7 @@ class UserController extends Controller
     /** Orders handled by the user in a date range (legacy "view detail" / progress report). */
     public function report(Request $request, User $user): View
     {
+        $this->authorizeView($request->user(), $user);
         $range = DateRange::fromRequest($request);
         $orders = $this->userOrders($user, $range)->get();
 
@@ -126,6 +127,7 @@ class UserController extends Controller
 
     public function reportExcel(Request $request, User $user, ExcelReports $excel): StreamedResponse
     {
+        $this->authorizeView($request->user(), $user);
         $range = DateRange::fromRequest($request);
 
         return $excel->userReport($user, $this->userOrders($user, $range)->get(), $range, $request->user()->isAdmin());
@@ -134,6 +136,7 @@ class UserController extends Controller
     /** Monthly designs / mistakes / revenue chart. */
     public function chart(Request $request, User $user): View
     {
+        $this->authorizeView($request->user(), $user);
         $range = DateRange::fromRequest($request);
         $months = $range->months(12);
         $data = null;
@@ -206,6 +209,12 @@ class UserController extends Controller
     private function authorizeManage(User $actor, User $target): void
     {
         abort_unless(in_array($target->Role_ID, $this->manageableRoles($actor), true) && $target->End_Date === null, 403);
+    }
+
+    /** Reports: same role scope as management, but also allowed for removed users (history). */
+    private function authorizeView(User $actor, User $target): void
+    {
+        abort_unless(in_array($target->Role_ID, $this->manageableRoles($actor), true), 403);
     }
 
     private function validated(Request $request, ?User $user): array
