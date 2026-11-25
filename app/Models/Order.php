@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -36,6 +37,20 @@ class Order extends Model
     public function scopeStatus(Builder $query, string $key): Builder
     {
         return $query->where('Orders.Order_Status', config("binvoice.order_status.$key"));
+    }
+
+    /**
+     * Substring search on Design_Name. LIKE '%term%' can't seek an index, so we
+     * force the covering index (Design_Name, End_Date, Order_Status, ...) — scanning
+     * it is ~10x faster than the full-table scan the optimizer picks on its own.
+     */
+    public static function searchDesign(Builder $query, string $term): Builder
+    {
+        if (DB::connection($query->getModel()->getConnectionName())->getDriverName() !== 'sqlite') {
+            $query->getQuery()->forceIndex('orders_design_search_idx');
+        }
+
+        return $query->where('Orders.Design_Name', 'like', '%'.addcslashes($term, '%_\\').'%');
     }
 
     public function customer(): BelongsTo

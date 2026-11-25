@@ -42,7 +42,7 @@ class OrderController extends Controller
         } else {
             $query->when($filters['customer'] ?? null, fn ($q, $v) => $q->where('Orders.Customer_ID', $v))
                 ->when($filters['order_id'] ?? null, fn ($q, $v) => $q->where('Orders.Order_ID', $v))
-                ->when($filters['design'] ?? null, fn ($q, $v) => $q->where('Orders.Design_Name', 'like', '%'.addcslashes($v, '%_\\').'%'))
+                ->when($filters['design'] ?? null, fn ($q, $v) => Order::searchDesign($q, $v))
                 ->when($filters['status'] ?? null, fn ($q, $v) => $q->where('Orders.Order_Status', $v));
         }
 

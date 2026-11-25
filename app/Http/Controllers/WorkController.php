@@ -28,7 +28,7 @@ class WorkController extends Controller
         $q = trim((string) $request->query('q', ''));
 
         $orders = $this->openOrders()
-            ->when($q !== '', fn ($query) => $query->where('Orders.Design_Name', 'like', '%'.addcslashes($q, '%_\\').'%'))
+            ->when($q !== '', fn ($query) => Order::searchDesign($query, $q))
             ->orderByDesc('Orders.Effective_Date')
             ->limit(50)
             ->get();
@@ -88,7 +88,7 @@ class WorkController extends Controller
             ->whereNull('Orders.End_Date')
             ->where('Orders.Order_Status', config('binvoice.order_status.completed'))
             ->when(! $seeAll, fn ($q) => $q->where('Orders.Completed_By', $user->User_Id))
-            ->when($request->filled('design'), fn ($q) => $q->where('Orders.Design_Name', 'like', '%'.addcslashes((string) $request->query('design'), '%_\\').'%'))
+            ->when($request->filled('design'), fn ($q) => Order::searchDesign($q, (string) $request->query('design')))
             ->when($seeAll && $request->filled('designer'), fn ($q) => $q->where('Orders.Completed_By', (int) $request->query('designer')))
             ->select('Orders.*', 'Customers.Customer_Unique_ID')
             ->orderByDesc('Orders.Completed_Date')
