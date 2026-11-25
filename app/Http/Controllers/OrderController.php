@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\EditCode;
 use App\Models\Order;
 use App\Models\OrderHistory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -60,6 +61,29 @@ class OrderController extends Controller
             'customers' => $this->customers(),
             'statusOptions' => $statusOptions,
         ]);
+    }
+
+    /** Latest orders of a customer (shown beside the Add Order form to avoid duplicates). */
+    public function recent(Request $request): JsonResponse
+    {
+        $customerId = $request->integer('customer');
+        if (! $customerId) {
+            return response()->json([]);
+        }
+
+        $orders = Order::active()
+            ->where('Customer_ID', $customerId)
+            ->orderByDesc('Order_ID')
+            ->limit(15)
+            ->get(['Order_ID', 'Design_Name', 'Order_Status', 'Effective_Date']);
+
+        return response()->json($orders->map(fn (Order $o) => [
+            'id' => $o->Order_ID,
+            'design' => $o->Design_Name,
+            'status' => $o->Order_Status,
+            'date' => $o->Effective_Date?->format('d M Y'),
+            'url' => route('orders.show', $o->Order_ID),
+        ]));
     }
 
     public function show(Order $order): View

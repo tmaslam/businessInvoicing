@@ -3,7 +3,7 @@
 @section('subtitle', $canEditStitches ? 'All completed designs. Click a stitch count to correct it.' : 'Designs you have completed.')
 @section('actions')
     @if(auth()->user()->hasRole('designer', 'csr'))
-        <a href="{{ route('work.create') }}" class="btn btn-primary"><i class="bi bi-check2-square"></i> Complete order</a>
+        <a href="{{ route('work.create') }}" class="btn btn-primary" data-shortcut="n" title="Shortcut: N"><i class="bi bi-check2-square"></i> Complete order</a>
     @endif
 @endsection
 @section('content')

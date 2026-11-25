@@ -5,7 +5,7 @@
 @endsection
 @section('actions')
     @if($user->hasRole('admin', 'csr', 'qa'))
-        <a href="{{ route('orders.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New order</a>
+        <a href="{{ route('orders.create') }}" class="btn btn-primary" data-shortcut="n" title="Shortcut: N"><i class="bi bi-plus-lg"></i> New order</a>
     @endif
     @if($user->hasRole('designer', 'csr'))
         <a href="{{ route('work.create') }}" class="btn {{ $user->hasRole('designer') ? 'btn-primary' : 'btn-light' }}"><i class="bi bi-check2-square"></i> Complete order</a>

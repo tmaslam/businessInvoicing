@@ -3,7 +3,7 @@
 @section('subtitle', 'Monthly business expenses, deducted on the Profit Distribution page.')
 @section('actions')
     <a href="{{ route('profit') }}" class="btn btn-light"><i class="bi bi-pie-chart"></i> Profit distribution</a>
-    <a href="{{ route('expenses.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add expense</a>
+    <a href="{{ route('expenses.create') }}" class="btn btn-primary" data-shortcut="n" title="Shortcut: N"><i class="bi bi-plus-lg"></i> Add expense</a>
 @endsection
 @section('content')
 <div class="card">

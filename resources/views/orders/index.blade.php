@@ -2,7 +2,7 @@
 @section('title', 'Orders')
 @section('subtitle', 'Search, review and manage all design orders.')
 @section('actions')
-    <a href="{{ route('orders.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New order</a>
+    <a href="{{ route('orders.create') }}" class="btn btn-primary" data-shortcut="n" title="Shortcut: N"><i class="bi bi-plus-lg"></i> New order</a>
 @endsection
 @section('content')
 @php($isAdmin = auth()->user()->isAdmin())
@@ -21,7 +21,7 @@
         </div>
         <div class="grow">
             <label class="form-label">Customer</label>
-            <select name="customer" class="form-select form-select-sm">
+            <select name="customer" class="form-select form-select-sm" data-autosubmit>
                 <option value="">All customers</option>
                 @foreach($customers as $c)
                     <option value="{{ $c->Customer_ID }}" @selected(($filters['customer'] ?? null) == $c->Customer_ID)>{{ $c->CompanyName }}</option>
@@ -30,7 +30,7 @@
         </div>
         <div style="width:160px">
             <label class="form-label">Status</label>
-            <select name="status" class="form-select form-select-sm">
+            <select name="status" class="form-select form-select-sm" data-autosubmit>
                 <option value="">Any status</option>
                 @foreach($statusOptions as $s)
                     <option value="{{ $s }}" @selected(($filters['status'] ?? '') === $s)>{{ ['Archive' => 'Paid (Archive)', 'Lock' => 'Locked'][$s] ?? $s }}</option>

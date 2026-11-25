@@ -2,7 +2,7 @@
 @section('title', 'Users')
 @section('subtitle', 'Team members, their access and performance reports.')
 @section('actions')
-    <a href="{{ route('users.create') }}" class="btn btn-primary"><i class="bi bi-person-plus"></i> Add user</a>
+    <a href="{{ route('users.create') }}" class="btn btn-primary" data-shortcut="n" title="Shortcut: N"><i class="bi bi-person-plus"></i> Add user</a>
 @endsection
 @section('content')
 @php($isAdmin = auth()->user()->isAdmin())

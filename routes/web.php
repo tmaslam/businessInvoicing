@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
 
     // ---- Orders: Admin, CSR, QA ----------------------------------------
     Route::middleware('role:admin,csr,qa')->group(function () {
+        Route::get('orders/recent', [OrderController::class, 'recent'])->name('orders.recent');
         Route::resource('orders', OrderController::class);
         Route::post('orders/{order}/verify', [OrderController::class, 'verify'])->middleware('role:qa')->name('orders.verify');
     });

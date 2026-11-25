@@ -93,10 +93,5 @@
         }
     });
     ts.focus();
-    document.getElementById('completeForm').addEventListener('submit', function () {
-        const b = document.getElementById('submitBtn');
-        b.disabled = true;
-        b.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Saving…';
-    });
 </script>
 @endpush

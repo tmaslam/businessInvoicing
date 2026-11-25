@@ -7,7 +7,7 @@
         const dark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
         return {
             primary: v('--bi-primary'),
-            primarySoftSolid: dark ? 'rgba(129,140,248,.55)' : 'rgba(79,70,229,.78)',
+            primarySoftSolid: dark ? 'rgba(96,165,250,.6)' : 'rgba(37,99,235,.82)',
             success: v('--bi-success'),
             warning: v('--bi-warning'),
             danger: v('--bi-danger'),

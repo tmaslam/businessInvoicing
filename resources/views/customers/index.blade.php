@@ -3,7 +3,7 @@
 @section('subtitle', 'Manage customers, pricing, invoices and payments.')
 @section('actions')
     <a href="{{ route('customers.chart', ['customer' => 0] + $range->query()) }}" class="btn btn-light"><i class="bi bi-bar-chart-line"></i> Overall revenue</a>
-    <a href="{{ route('customers.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add customer</a>
+    <a href="{{ route('customers.create') }}" class="btn btn-primary" data-shortcut="n" title="Shortcut: N"><i class="bi bi-plus-lg"></i> Add customer</a>
 @endsection
 @section('content')
 <div class="card">

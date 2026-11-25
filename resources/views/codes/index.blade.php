@@ -2,7 +2,7 @@
 @section('title', 'Error codes')
 @section('subtitle', 'Reasons used when an order is sent back for an edit. Designer codes count as mistakes in reports.')
 @section('actions')
-    <a href="{{ route('codes.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add code</a>
+    <a href="{{ route('codes.create') }}" class="btn btn-primary" data-shortcut="n" title="Shortcut: N"><i class="bi bi-plus-lg"></i> Add code</a>
 @endsection
 @section('content')
 @php($tones = ['Designer' => 'danger', 'Customer' => 'info', 'Other' => 'neutral'])
